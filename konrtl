@@ -1,0 +1,155 @@
+using System.Diagnostics;
+using System.Net.Mime;
+using System.Xml.Serialization;
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //Task1
+            int dice = Random.Shared.Next(1, 100);
+            int[] array = new int[10];
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = dice;
+                dice = Random.Shared.Next(1, 100);
+            }
+            Console.WriteLine(string.Join(",", array));
+            int min = array[0];
+            int max = array[0];
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] > max) max = array[i];
+                if (array[i] < min) min = array[i];
+            }
+            int cmax = -1;
+            int cmin = -1;
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] == max && cmax == -1) cmax = i;
+                if (array[i] == min && cmin == -1) cmin = i;
+            }
+            Console.WriteLine(Math.Abs(cmax - cmin));
+
+
+
+            //Task2
+            int dice = Random.Shared.Next(1, 100);
+            int n = Random.Shared.Next(1, 10);
+            int[] array = new int[100];
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = dice;
+                dice = Random.Shared.Next(1, 100);
+            }
+            int schet = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] > 0 && (array[i] % n == 0 || n % array[i] == 0)) schet++;
+            }
+            int[] novi = new int[schet];
+            int index = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] > 0 && (array[i] % n == 0 || n % array[i] == 0))
+                {
+                    novi[index] = array[i];
+                    index++;
+                }
+            }
+            Console.WriteLine($"{n} ||||||||| {string.Join(",", novi)}");
+
+
+
+
+            //Task3
+            int dice = Random.Shared.Next(1, 10);
+            int[] array = new int[20];
+            for (int i = 0; i < array.Length; i++)
+            {
+                array[i] = dice;
+                dice = Random.Shared.Next(1, 10);
+            }
+            Console.WriteLine(string.Join(",", array));
+            for (int i = 0; i < array.Length; i++)
+            {
+                bool swapped = false;
+
+                for (int j = 0; j < array.Length - 1; j++)
+                {
+                    if (array[j] > array[j + 1])
+                    {
+                        int temp = array[j];
+                        array[j] = array[j + 1];
+                        array[j + 1] = temp;
+                    }
+                    swapped = true;
+                }
+                if (swapped == false) break;
+            }
+            Console.WriteLine(string.Join(",", array));
+            int mediana = 0;
+            if (array.Length % 2 == 1) { mediana = array[(array.Length - 1) / 2]; }
+            else { mediana = (array[array.Length / 2 + 1] + array[array.Length / 2]) / 2; }
+            int schet = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] == mediana) schet++;
+            }
+            int[] b = new int[schet];
+            int index = 0;
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (array[i] == mediana)
+                {
+                    b[index] = i;
+                    index++;
+                }
+            }
+            if (b.Length == 0) Console.WriteLine("???");
+            Console.WriteLine(string.Join(",", b));
+
+
+
+
+            //Task4
+            int chislo = Random.Shared.Next(-20, 20);
+            double[] temperature = new double[40];
+            for (int i = 0; i < temperature.Length; i++)
+            {
+                temperature[i] = (double)chislo;
+                chislo = Random.Shared.Next(-20, 20);
+            }
+            Console.WriteLine(string.Join("||", temperature));
+            for (int i = 0; i < temperature.Length; i++)
+            {
+                if (temperature[i] < -10 || temperature[i] > 10)
+                {
+                    double pered = 0;
+                    double posle = 0;
+                    for (int j = i; j < temperature.Length; j++)
+                    {
+                        if (temperature[j] > -10 && temperature[j] < 10)
+                        {
+                            posle = temperature[j];
+                            break;
+                        }
+                    }
+                    for (int j = i; j >= 0; j--)
+                    {
+                        if (temperature[j] > -10 && temperature[j] < 10)
+                        {
+                            pered = temperature[j];
+                            break;
+                        }
+                    }
+                    if (pered != 0 && posle != 0) temperature[i] = (pered + posle) / 2;
+                    else temperature[i] = pered + posle;
+                }
+            }
+            Console.WriteLine(string.Join("||", temperature));
+        }
+    }
+}
